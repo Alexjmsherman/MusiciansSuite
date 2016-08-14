@@ -1,0 +1,74 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Points Home Page</title>
+
+<script src="http://www.d3plus.org/js/d3.js"></script>
+<script src="http://www.d3plus.org/js/d3plus.js"></script>
+
+<style>
+#viz {
+    height: 400px;
+    width: 1200px;
+}
+</style>
+</head>
+
+<body>
+<section>
+Points is a game about collection
+</section>
+<div id="viz"></div>
+<p id="demo"></p>
+<p id="user_guess"></p>
+
+
+<button onclick="guessTime()">Click me</button>
+</body>
+</html>
+
+
+<script>
+    var myVar = setInterval(myTimer, 1000);
+    function myTimer() {
+       var d = new Date();
+        console.log(d);
+        document.getElementById("demo").innerHTML = d.toLocaleTimeString();
+    }
+
+    function guessTime() {
+        var d = new Date();
+        var guess = d.getMilliseconds();
+        console.log(guess);
+        document.getElementById("user_guess").innerHTML = guess;
+        data.push({"second": guess, "name":"alpha", "value": 1});
+        console.log(data);
+        visualization.data(data).draw();
+    }
+
+  var data = [
+    {"second": 0, "name":"user", "value": 1},
+    {"second": 1000, "name":"user", "value": 1},
+  ]
+
+  var visualization = d3plus.viz()
+    .container("#viz")
+    .data(data)
+    .type("bar")
+    .id("name")
+    .x("second")
+    .y("value")
+    .draw()
+
+var second = 1;
+var value = 1;
+function old() {
+    data.push({"second": second, "name":"alpha", "value": value});
+    value += 1;
+    console.log(year);
+    visualization.data(data).draw();
+}
+
+</script>
