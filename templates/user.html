@@ -31,26 +31,40 @@ Points is a game about collection
 
 
 <script>
+    var audio = new Audio('/static/metronome_beep.wav');
     var myVar = setInterval(myTimer, 1000);
+    var second = 0
+    var expected_guess_second = 0
+
     function myTimer() {
-       var d = new Date();
-        console.log(d);
-        document.getElementById("demo").innerHTML = d.toLocaleTimeString();
+        var d = new Date();
+        second = d.getSeconds();
+        document.getElementById("demo").innerHTML = second;
+        setTimeout(audio.play(), 0);
+    }
+
+    function updateExpectedGuessSecond() {
+        expected_guess_second = second += 1
     }
 
     function guessTime() {
         var d = new Date();
         var guess = d.getMilliseconds();
-        console.log(guess);
+        var guess_second = d.getSeconds();
+        if (guess_second < expected_guess_second) {
+            guess = guess - 1000
+        }
+        updateExpectedGuessSecond();
+
         document.getElementById("user_guess").innerHTML = guess;
-        data.push({"second": guess, "name":"alpha", "value": 1});
-        console.log(data);
+        data.push({"second": Math.round(guess/100), "name":"alpha", "value": 1});
         visualization.data(data).draw();
     }
 
   var data = [
+    {"second": -10, "name":"user", "value": 1},
     {"second": 0, "name":"user", "value": 1},
-    {"second": 1000, "name":"user", "value": 1},
+    {"second": 10, "name":"user", "value": 1},
   ]
 
   var visualization = d3plus.viz()
